@@ -16,11 +16,11 @@ This will generate a javascript file and print out a statement like follows.
 Paste this statement into the geth console. Your code will be loaded. There are aalso a few helper functions to easily deploy the contracts in the js file.
 
 ``` createContract(abiDefinition)
-
     getContractInstance(contract, input, account, code, gas)
 ```
 
 You can use them to deploy the contract.
 
 `var contract = createContract(compiled.SimpleStorage.info.abiDefinition);`
+
 `var instance = getContractInstance(contract, 10, eth.coinbase, compiled.SimpleStorage.code,10000);
