@@ -11,7 +11,9 @@ To compile your code run
 
 This will generate a javascript file and print out a statement like the following.
 
-`loadScript('/path/contract.js')`
+```javascript
+loadScript('/path/contract.js')
+```
 
 Paste this statement into the geth console. Your code will be loaded.
 
@@ -24,6 +26,7 @@ getContractInstance(contract, input, account, code, gas)
 
 You can use them to deploy the contract.
 
-`var contract = createContract(compiled.SimpleStorage.info.abiDefinition);`
-
-`var instance = getContractInstance(contract, 10, eth.coinbase, compiled.SimpleStorage.code,10000);`
+```javascript
+var contract = createContract(compiled.SimpleStorage.info.abiDefinition);
+var instance = getContractInstance(contract, 10, eth.coinbase, compiled.SimpleStorage.code,10000);
+```
