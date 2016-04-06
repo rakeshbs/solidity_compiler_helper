@@ -17,7 +17,7 @@ loadScript('/path/contract.js')
 
 Paste this statement into the geth console. Your code will be loaded.
 
-There are also a few helper functions to easily deploy the contracts in the js file.
+There are also a few helper functions to easily deploy the contracts.
 
 ```javascript
 createContract(abiDefinition)
