@@ -9,7 +9,7 @@ To compile your code run
 
 `solc_helper contract.sol`
 
-This will generate a javascript file and print out a statement like follows.
+This will generate a javascript file and print out a statement like the following.
 
 `loadScript('/path/contract.js')`
 
@@ -17,8 +17,10 @@ Paste this statement into the geth console. Your code will be loaded.
 
 There are also a few helper functions to easily deploy the contracts in the js file.
 
-`createContract(abiDefinition)`
-`getContractInstance(contract, input, account, code, gas)`
+```javascript
+createContract(abiDefinition)
+getContractInstance(contract, input, account, code, gas)
+```
 
 You can use them to deploy the contract.
 
