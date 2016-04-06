@@ -1,4 +1,4 @@
-This is helper to compile and deploy smart contracts through geth.
+This is a helper to compile and deploy smart contracts through geth.
 
 Start geth with following flags (along with the others you may need). You can change the rpcport to any port number. Just remember to change that in the script.
 
