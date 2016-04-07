@@ -11,6 +11,7 @@ def compile_solidity(code)
   json_string= `curl -s -X POST --data '{"jsonrpc":"2.0","method":"eth_compileSolidity","params":["#{code}"],"id":1}' http://127.0.0.1:8100`
   json_object = JSON.parse(json_string)
   compiled_object = json_object['result']
+  puts json_object if compiled_object.nil?
   compiled_object
 end
 
