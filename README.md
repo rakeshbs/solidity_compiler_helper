@@ -21,15 +21,15 @@ There are also a few helper functions to easily deploy the contracts.
 
 ```javascript
 create(abiDefinition)
-deploy(account, gas, contract, code, input=optional)
+deploy(account, value, gas, contract, code, input=optional)
 ```
 
 You can use them to deploy the contract.
 
 ```javascript
 var contract = create(compiled.SimpleStorage.info.abiDefinition);
-var instance = deploy(eth.coinbase, 10000, contract, compiled.SimpleStorage.code,10);
-var instance = deploy(eth.coinbase, 10000, contract, compiled.SimpleStorage.code); // if there are no constructor parameters.
+var instance = deploy(eth.coinbase, 0, 10000, contract, compiled.SimpleStorage.code,10);
+var instance = deploy(eth.coinbase, 10, 10000, contract, compiled.SimpleStorage.code); // if there are no constructor parameters.
 ```
 
 To call a function in the contract you can use the `callContractFunction` function
