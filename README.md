@@ -15,18 +15,30 @@ This will generate a javascript file and print out a statement like the followin
 loadScript('/path/contract.js')
 ```
 
-Paste this statement into the geth console. Your code will be loaded.
+Paste this statement into the geth console. Your code will be loaded and your contract will be deployed automatically.
 
 There are also a few helper functions to easily deploy the contracts.
 
 ```javascript
-createContract(abiDefinition)
-deployContract(contract, input, account, code, gas)
+create(abiDefinition)
+deploy(contract, input, account, code, gas)
 ```
 
 You can use them to deploy the contract.
 
 ```javascript
-var contract = createContract(compiled.SimpleStorage.info.abiDefinition);
-var instance = deployContract(contract, 10, eth.coinbase, compiled.SimpleStorage.code,10000);
+var contract = create(compiled.SimpleStorage.info.abiDefinition);
+var instance = deploy(contract, 10, eth.coinbase, compiled.SimpleStorage.code,10000);
+```
+
+To call a function in the contract you can use the `callContractFunction` function
+
+```javascript
+call(account, gas, contractInstance.function, input)
+```
+
+To watch the watch an event you can use the watcher function.
+
+```javascript
+contractInstance.eventName(watcher);
 ```
