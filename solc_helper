@@ -27,12 +27,13 @@ def get_contract_to_deploy(compiled_object)
   return compiled_object.keys[0] if compiled_object.keys.count == 1
   puts "Which contract do you want to deploy?"
   choice = 0
-  while choice > 0 && choice < compiled_object.keys.count
-    compiled_object.keys.each do |i|
-      puts "#{(i+1)}. "+compiled_object.keys[i]
+  while choice <= 0 || choice >= compiled_object.keys.count
+    compiled_object.keys.each.with_index do |key, i|
+      puts "#{(i+1)}. "+key
     end
     choice = $stdin.gets.to_i
   end
+  return compiled_object.keys[choice - 1]
 end
 
 def get_input
@@ -71,6 +72,9 @@ File.open(javascript_file_name, 'w') do |f|
   f.write("#{library_code};\nvar #{compiled_variable_name} = #{compiled_object.to_json};")
   f.write("#{contract_variable_name} = createContract(#{compiled_variable_name}.#{current_contract}.info.abiDefinition);")
   f.write("#{contract_instance_variable_name} = deployContract(eth.coinbase,#{gas},#{contract_variable_name},#{compiled_variable_name}.#{current_contract}.code,#{input});")
+  f.write("console.log('Compiled Object : #{compiled_variable_name}');")
+  f.write("console.log('Contract : #{contract_variable_name}');")
+  f.write("console.log('Contract Instance : #{contract_instance_variable_name}');")
 end
 
 puts "loadScript('#{`pwd`}/#{javascript_file_name}')".gsub("\n",'')
