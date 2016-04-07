@@ -2,7 +2,7 @@
 
 require 'json'
 
-library_code = 'function createContract(abiDefinition) {  return web3.eth.contract(abiDefinition);}function getContractInstance(contract, input, account, code, gas) {  var instance = contract.new(input,{from:account, data: code, gas: gas}, function (e, contract) {  if(!e) {    if(!contract.address) {      console.log("Contract transaction send: TransactionHash: " + contract.transactionHash + " waiting to be mined...");    } else {      console.log("Contract mined! Address: " + contract.address);      console.log(contract);    }  } else {    console.log(e)  }  });  return instance;}
+library_code = 'function createContract(abiDefinition) {  return web3.eth.contract(abiDefinition);}function deployContract(contract, input, account, code, gas) {  var instance = contract.new(input,{from:account, data: code, gas: gas}, function (e, contract) {  if(!e) {    if(!contract.address) {      console.log("Contract transaction send: TransactionHash: " + contract.transactionHash + " waiting to be mined...");    } else {      console.log("Contract mined! Address: " + contract.address);      console.log(contract);    }  } else {    console.log(e)  }  });  return instance;}
 '
 file_name = ARGV[0]
 code = File.read(file_name).gsub("\n",'')

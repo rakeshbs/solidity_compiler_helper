@@ -21,12 +21,12 @@ There are also a few helper functions to easily deploy the contracts.
 
 ```javascript
 createContract(abiDefinition)
-getContractInstance(contract, input, account, code, gas)
+deployContract(contract, input, account, code, gas)
 ```
 
 You can use them to deploy the contract.
 
 ```javascript
 var contract = createContract(compiled.SimpleStorage.info.abiDefinition);
-var instance = getContractInstance(contract, 10, eth.coinbase, compiled.SimpleStorage.code,10000);
+var instance = deployContract(contract, 10, eth.coinbase, compiled.SimpleStorage.code,10000);
 ```
