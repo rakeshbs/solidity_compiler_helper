@@ -3,8 +3,7 @@
 require 'json'
 
 def library_code
-  'function createContract(abiDefinition) {  return web3.eth.contract(abiDefinition);}function deployContract(account, gas, contract, code, input) {  if (typeof(input)===\'undefined\') input = null;  var instance = contract.new(input,{from:account, data: code, gas: gas}, function (e, contract) {    if(!e) {      if(!contract.address) {        console.log("Contract transaction send: TransactionHash: " + contract.transactionHash + " waiting to be mined...");      } else {        console.log("Contract mined! Address: " + contract.address);        console.log(contract);      }    } else {      console.log(e)    }  });  return instance;}
-'
+  'function create(abiDefinition) {  return web3.eth.contract(abiDefinition);}function deploy(account, gas, contract, code, input) {  if (typeof(input)===\'undefined\') input = null;  var instance = contract.new(input,{from:account, data: code, gas: gas}, function (e, contract) {    if(!e) {      if(!contract.address) {        console.log("Contract transaction send: TransactionHash: " + contract.transactionHash + " waiting to be mined...");      } else {        console.log("Contract mined! Address: " + contract.address);      }    } else {      console.log(e)    }  });  return instance;}function watcher(error, result) {  if (!error) {    console.log("Result");    console.log(JSON.stringify(result));    return;  }  console.log("Error" + error);}function call(account, gas, func, input) {  if (typeof(input)===\'undefined\') input = null;  func.sendTransaction(input, gas, {from:account}, watcher);}'
 end
 
 
@@ -65,13 +64,11 @@ contract_instance_variable_name = "#{current_contract}"
 
 gas = get_gas
 input = get_input
-puts input
-
 
 File.open(javascript_file_name, 'w') do |f|
   f.write("#{library_code};\nvar #{compiled_variable_name} = #{compiled_object.to_json};")
-  f.write("#{contract_variable_name} = createContract(#{compiled_variable_name}.#{current_contract}.info.abiDefinition);")
-  f.write("#{contract_instance_variable_name} = deployContract(eth.coinbase,#{gas},#{contract_variable_name},#{compiled_variable_name}.#{current_contract}.code,#{input});")
+  f.write("#{contract_variable_name} = create(#{compiled_variable_name}.#{current_contract}.info.abiDefinition);")
+  f.write("#{contract_instance_variable_name} = deploy(eth.coinbase,#{gas},#{contract_variable_name},#{compiled_variable_name}.#{current_contract}.code,#{input});")
   f.write("console.log('Compiled Object : #{compiled_variable_name}');")
   f.write("console.log('Contract : #{contract_variable_name}');")
   f.write("console.log('Contract Instance : #{contract_instance_variable_name}');")
