@@ -1,10 +1,8 @@
 This is a helper to compile and deploy smart contracts through geth.
 
-Start geth with following flags (along with the others you may need). You can change the rpcport to any port number. Just remember to change that in the script.
+Install solc compiler.
 
-`geth --rpc --rpcport 8100 --rpccorsdomain "*"`
-
-Then move `solc_helper` to somewhere in your path.
+Move `solc_helper` to somewhere in your path.
 To compile your code run
 
 `solc_helper contract.sol`
@@ -43,3 +41,5 @@ To watch the watch an event you can use the watcher function.
 ```javascript
 contractInstance.eventName(watcher);
 ```
+
+The script will also printout the gas estimates when you try to compile.
