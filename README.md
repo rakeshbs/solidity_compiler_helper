@@ -36,7 +36,7 @@ To call a function in the contract you can use the `callContractFunction` functi
 call(account, gas, contractInstance.function, input)
 ```
 
-To watch the watch an event you can use the watcher function.
+To watch an event you can use the watcher function.
 
 ```javascript
 contractInstance.eventName(watcher);
