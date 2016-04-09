@@ -7,15 +7,33 @@ def library_code
 end
 
 
-def compile_solidity(code)
-  json_string= `curl -s -X POST --data '{"jsonrpc":"2.0","method":"eth_compileSolidity","params":["#{code}"],"id":1}' http://127.0.0.1:8100`
-  json_object = JSON.parse(json_string)
-  compiled_object = json_object['result']
-  puts json_object if compiled_object.nil?
-  compiled_object
+def compile_solidity(file)
+  puts `solc --optimize --gas #{file}`
+  puts "\n\n"
+  json_string = `solc --add-std --optimize --combined-json abi,bin,userdoc,devdoc #{file}`
+  json_string = json_string.gsub("\\n","")
+  begin
+    json_object = JSON.parse(json_string)
+    throw if json_object.nil?
+    json_object["contracts"]
+  rescue
+    puts json_string
+    puts "Failed to Compile"
+    abort
+  end
 end
 
 def deploy_contract(code)
+end
+
+def process_code(contracts)
+  contracts.keys.each.with_index do |key, i|
+    contracts[key]["bin"] = "0x" + contracts[key]["bin"]
+    contracts[key]["abi"] = JSON.parse(contracts[key]["abi"])
+    contracts[key]["devdoc"] = JSON.parse(contracts[key]["devdoc"])
+    contracts[key]["userdoc"] = JSON.parse(contracts[key]["userdoc"])
+  end
+  return contracts
 end
 
 
@@ -61,9 +79,9 @@ def get_value
 end
 
 file_name = ARGV[0]
-code = File.read(file_name).gsub("\n",'')
 
-compiled_object = compile_solidity(code)
+compiled_object = compile_solidity(file_name)
+compiled_object = process_code(compiled_object)
 javascript_file_name = javascript_file_name(file_name)
 
 current_contract = get_contract_to_deploy(compiled_object)
@@ -78,8 +96,8 @@ input = get_input
 
 File.open(javascript_file_name, 'w') do |f|
   f.write("#{library_code};\nvar #{compiled_variable_name} = #{compiled_object.to_json};")
-  f.write("#{contract_variable_name} = create(#{compiled_variable_name}.#{current_contract}.info.abiDefinition);")
-  f.write("#{contract_instance_variable_name} = deploy(eth.coinbase,#{value},#{gas},#{contract_variable_name},#{compiled_variable_name}.#{current_contract}.code,#{input});")
+  f.write("#{contract_variable_name} = create(#{compiled_variable_name}.#{current_contract}.abi);")
+  f.write("#{contract_instance_variable_name} = deploy(eth.coinbase,#{value},#{gas},#{contract_variable_name},#{compiled_variable_name}.#{current_contract}.bin,#{input});")
   f.write("console.log('Compiled Object : #{compiled_variable_name}');")
   f.write("console.log('Contract : #{contract_variable_name}');")
   f.write("console.log('Contract Instance : #{contract_instance_variable_name}');")
