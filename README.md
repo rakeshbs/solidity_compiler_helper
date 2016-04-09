@@ -1,6 +1,6 @@
 This is a helper to compile and deploy smart contracts through geth.
 
-Install solc compiler.
+Install `solc` compiler.
 
 Move `solc_helper` to somewhere in your path.
 To compile your code run
@@ -30,7 +30,7 @@ var instance = deploy(eth.coinbase, 0, 10000, contract, compiled.SimpleStorage.c
 var instance = deploy(eth.coinbase, 10, 10000, contract, compiled.SimpleStorage.code); // if there are no constructor parameters.
 ```
 
-To call a function in the contract you can use the `callContractFunction` function
+To call a function in the contract you can use the `call` function
 
 ```javascript
 call(account, gas, contractInstance.function, input)
