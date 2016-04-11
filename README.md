@@ -18,8 +18,8 @@ Paste this statement into the geth console. Your code will be loaded and your co
 There are also a few helper functions to easily deploy the contracts.
 
 ```javascript
-create(abiDefinition)
-deploy(account, value, gas, contract, code, input=optional)
+create(abiDefinition);
+deploy(account, value, gas, contract, code, input=optional);
 ```
 
 You can use them to deploy the contract.
@@ -33,7 +33,10 @@ var instance = deploy(eth.coinbase, 10, 10000, contract, compiled.SimpleStorage.
 To call a function in the contract you can use the `call` function
 
 ```javascript
-call(account, gas, contractInstance.function, input)
+call(accountIndex, gas, contractInstance.function, input);
+
+//For example to call using ether from eth.accounts[1]
+call(1, 100000, multiplier.multiply, 1, 2)A;
 ```
 
 To watch an event you can use the watcher function.
@@ -46,7 +49,7 @@ The script will also printout the gas estimates when you try to compile.
 
 To send some ether from your account to another. You can use `send` function
 ```javascript
-send(accountIndex, toAccount, valueInEther, gas)
+send(accountIndex, toAccount, valueInEther, gas);
 
 //For example to send some ether from eth.accounts[2]
 send(2, '0xb8290f9757b5c9daa11a8016d663829af812fc0e', 10, 30000);
