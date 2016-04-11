@@ -3,22 +3,22 @@
 require 'json'
 
 def library_code
-  'function create(abiDefinition) {  return web3.eth.contract(abiDefinition);}function deploy(account, value, gas, contract, code, input) {  if (typeof(input)===\'undefined\') input = null;  var instance = contract.new(input,{from:account, value: value,  data: code, gas: gas}, function (e, contract) {    if(!e) {      if(!contract.address) {        console.log("Contract transaction send: TransactionHash: " + contract.transactionHash + " waiting to be mined...");      } else {        console.log("Contract mined! Address: " + contract.address);      }    } else {      console.log(e)    }  });  return instance;}function watcher(error, result) {  if (!error) {    console.log("Result");    console.log(JSON.stringify(result));    return;  }  console.log("Error" + error);}function call(account, gas, func, input) {  if (typeof(input)===\'undefined\') input = null;  func.sendTransaction(input, gas, {from:account}, watcher);}'
+  'function create(abiDefinition) {  return web3.eth.contract(abiDefinition);}/*function deploy(account, value, gas, contract, code, input) */function deploy() {  var account = arguments[0];  var value = arguments[1];  var gas = arguments[2];  var contract = arguments[3];  var code = arguments[4];  var codeString = "contract.new(inputMarker,{from:\'accountMarker\', value: valueMarker,  data: \'codeMarker\', gas: gasMarker}, function (e, contract) {    if(!e) {      if(!contract.address) {        console.log(\"Contract transaction send: TransactionHash: \" + contract.transactionHash + \" waiting to be mined...\");      } else {        console.log(\"Contract mined! Address: \" + contract.address);      }    } else {      console.log(e)    }  })";  codeString = codeString.replace("accountMarker", account);  codeString = codeString.replace("valueMarker", value);  codeString = codeString.replace("codeMarker", code);  codeString = codeString.replace("gasMarker", gas);  console.log(codeString);  input = "null";  if (arguments.length > 5) {    if (arguments[5] != null) {      var args = Array.prototype.slice.call(arguments, 5);      console.log(args);      input = args.join(",");      console.log(input);    }  }  codeString = codeString.replace("inputMarker", input);  var instance = eval(codeString);  return instance;}function watcher(error, result) {  if (!error) {    console.log("Result");    console.log(JSON.stringify(result));    return;  }  console.log("Error" + error);}function call(account, gas, func, input) {  if (typeof(input)===\'undefined\') input = null;  func.sendTransaction(input, gas, {from:account}, watcher);}function send(from_index, to, value, gas){ return eth.sendTransaction({from:eth.accounts[from_index], to:to, value:web3.toWei(value,\'ether\'), gas:gas});}'
 end
 
 
 def compile_solidity(file)
-  puts `solc --optimize --gas #{file}`
-  puts "\n\n"
   json_string = `solc --add-std --optimize --combined-json abi,bin,userdoc,devdoc #{file}`
   json_string = json_string.gsub("\\n","")
   begin
     json_object = JSON.parse(json_string)
     throw if json_object.nil?
+    puts `solc --optimize --gas #{file}`
+    puts "\n\n"
+    puts "-------------------------------------"
     json_object["contracts"]
   rescue
-    puts json_string
-    puts "Failed to Compile"
+    puts "Failed to Compile."
     abort
   end
 end
@@ -104,5 +104,3 @@ File.open(javascript_file_name, 'w') do |f|
 end
 
 puts "loadScript('#{`pwd`}/#{javascript_file_name}')".gsub("\n",'')
-# ~> -:64:in `read': no implicit conversion of nil into String (TypeError)
-# ~> 	from -:64:in `<main>'
