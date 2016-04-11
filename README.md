@@ -45,7 +45,6 @@ To watch an event you can use the watcher function.
 contractInstance.eventName(watcher);
 ```
 
-The script will also printout the gas estimates when you try to compile.
 
 To send some ether from your account to another. You can use `send` function
 ```javascript
@@ -54,3 +53,7 @@ send(accountIndex, toAccount, valueInEther, gas);
 //For example to send some ether from eth.accounts[2]
 send(2, '0xb8290f9757b5c9daa11a8016d663829af812fc0e', 10, 30000);
 ```
+
+Use `bal()` function to check balance of all accounts.
+
+The script will also printout the gas estimates when you try to compile.
