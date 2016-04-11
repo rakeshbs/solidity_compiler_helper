@@ -36,7 +36,7 @@ To call a function in the contract you can use the `call` function
 call(accountIndex, gas, contractInstance.function, input);
 
 //For example to call using ether from eth.accounts[1]
-call(1, 100000, multiplier.multiply, 1, 2)A;
+call(1, 100000, multiplier.multiply, 1, 2);
 ```
 
 To watch an event you can use the watcher function.
