@@ -8,7 +8,7 @@ end
 
 
 def compile_solidity(file)
-  json_string = `solc --add-std --optimize --combined-json abi,bin,userdoc,devdoc #{file}`
+  json_string = `solc --optimize --combined-json abi,bin,userdoc,devdoc #{file}`
   json_string = json_string.gsub("\\n","")
   begin
     json_object = JSON.parse(json_string)
